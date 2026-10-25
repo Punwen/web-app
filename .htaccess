@@ -1,0 +1,11 @@
+DirectoryIndex index.php
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(?:app|views|database|scripts|tests|docs|backups)(?:/|$) - [F,L]
+RewriteRule (^|/)\. - [F,L]
+RewriteRule ^config(?:\.[^/]*)?\.php$ - [F,L]
+<FilesMatch "^(AGENTS\.md|README\.md|ReStart\.code-workspace)$">
+Require all denied
+</FilesMatch>
+
+Require local

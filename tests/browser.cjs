@@ -22,7 +22,7 @@ for(const view of ['list','detail','edit','help','delete']) {
 await page.goto(base+'?lang='+lang+'&view='+view+'&id='+id);
 assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${lang} ${view} ${width}: no horizontal overflow`);checks++;
 assert.equal(await page.locator('script').count(),0);checks++;
-if(width===390) {assert.ok(await page.locator('.sidebar-bottom a').isVisible(),'help visible on narrow window');checks++;}
+if(width===390) {assert.ok(await page.locator('.main-nav .nav-item').first().evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=12),'navigation text at least12px');checks++;assert.ok(await page.locator('.sidebar-bottom a').isVisible(),'help visible on narrow window');checks++;}
 }
 }
 await page.setViewportSize({width:1440,height:900});
@@ -35,3 +35,4 @@ assert.equal(await page.locator('.welcome-empty').count(),1,'deleting last item 
 }
 await browser.close();console.log('PASS browser: '+checks+' checks');
 })().catch(e=>{console.error('FAIL browser:',e.message);process.exitCode=1;process.exit()});
+
