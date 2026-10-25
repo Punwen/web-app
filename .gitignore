@@ -4,3 +4,9 @@ Thumbs.db
 .env
 .env.*
 node_modules/
+
+config.local.php
+.local/
+.superpowers/
+backups/
+
