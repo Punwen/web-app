@@ -1,0 +1,3 @@
+<div class="page-heading"><p class="eyebrow">HOW TO RESTART</p><h1><?= e(t('help')) ?></h1><p><?= e(t('help_intro')) ?></p></div>
+<div class="help-grid"><?php foreach(['help_create'=>'create','help_status'=>'status','help_resume'=>'resume'] as $copy=>$heading): ?><section class="help-step panel"><div class="step-icon"><?= icon('save') ?></div><h2><?= e(t($heading)) ?></h2><p><?= e(t($copy)) ?></p></section><?php endforeach; ?></div>
+<section class="prototype-panel panel"><h2><?= e(t('notes')) ?></h2><ul><?php foreach(['form_note','help_latest','help_language','help_backup'] as $copy): ?><li><?= e(t($copy)) ?></li><?php endforeach; ?></ul><a class="button primary" href="<?= e(url(['view'=>'new'])) ?>"><?= e(t('create')) ?></a></section>

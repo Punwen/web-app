@@ -1,0 +1,3 @@
+<a class="back-link" href="<?= e(url(['view'=>'detail','id'=>$id])) ?>">← <?= e(t('view')) ?></a>
+<section class="delete-panel panel"><p class="eyebrow">DELETE SAVE</p><h1><?= e(t('delete_title')) ?></h1><h2><?= e($record['title']??'') ?></h2><p><?= e(t('delete_copy')) ?></p>
+<form method="post" action="<?= e(url()) ?>"><?= form_fields('delete',$id) ?><input type="hidden" name="version" value="<?= $version ?>"><div class="form-actions"><a class="button secondary" href="<?= e(url(['view'=>'detail','id'=>$id])) ?>"><?= e(t('keep')) ?></a><button class="button danger" type="submit"><?= e(t('delete_confirm')) ?></button></div></form></section>
