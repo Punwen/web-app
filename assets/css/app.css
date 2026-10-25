@@ -1,0 +1,324 @@
+/* PHP application refinements. The original static design remains in style.css. */
+.php-app {
+  --small-text: 12px;
+  --muted: #b0bbcd;
+  --faint: #98a6bc;
+  font-size: 15px;
+}
+.php-app .sidebar {
+  overflow-y: auto;
+}
+.php-app .brand,
+.php-app .main-nav,
+.php-app .sidebar-bottom {
+  flex-shrink: 0;
+}
+.php-app .nav-item,
+.php-app .sidebar-bottom .nav-item {
+  font-size: 13px;
+}
+.php-app .brand small,
+.php-app .sidebar-section,
+.php-app .topbar-label,
+.php-app .prototype-tag,
+.php-app .local-status {
+  font-size: 10px;
+}
+.php-app .language-switch a,
+.php-app .nav-count,
+.php-app .status-badge,
+.php-app .category-tag,
+.php-app .detail-date,
+.php-app .card-time,
+.php-app .continue-link,
+.php-app .count-pill,
+.php-app .list-caption,
+.php-app .resume-sample,
+.php-app .resume-save time,
+.php-app .field-hint,
+.php-app .required,
+.php-app .optional,
+.php-app .form-prototype-note,
+.php-app .small-note,
+.php-app .danger-link {
+  font-size: var(--small-text);
+}
+.php-app .button {
+  font-size: 14px;
+  min-height: 44px;
+}
+.php-app .hero-copy > p,
+.php-app .resume-notes dd,
+.php-app .card-progress,
+.php-app .next-step p,
+.php-app .page-heading > p:last-child,
+.php-app .tip-panel > p:not(.eyebrow),
+.php-app .ready-panel p:not(.eyebrow),
+.php-app .help-step p {
+  font-size: 14px;
+}
+.php-app .resume-notes dt,
+.php-app .card-category,
+.php-app .stat-item > span:nth-child(2) > span {
+  font-size: 12px;
+}
+.php-app input[type="text"],
+.php-app textarea,
+.php-app select {
+  font-size: 16px;
+}
+.php-app .field > label,
+.php-app .field legend,
+.php-app .status-picker span {
+  font-size: 14px;
+}
+.php-app .form-two-columns {
+  grid-template-columns: 1fr;
+}
+.php-app .status-picker {
+  max-width: none;
+  flex-wrap: wrap;
+}
+.php-app .status-picker label {
+  min-width: 90px;
+}
+.php-app .status-picker span {
+  white-space: normal;
+  text-align: center;
+}
+.php-app .field-hint {
+  color: #b0bbcd;
+}
+.php-app .form-prototype-note {
+  text-align: left;
+}
+.php-app .detail-heading h1,
+.php-app .card-content h3,
+.php-app .note-text,
+.php-app .delete-panel h2,
+.php-app .hero h1 {
+  overflow-wrap: anywhere;
+}
+.php-app .card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.php-app .save-card {
+  display: flex;
+  flex-direction: column;
+}
+.php-app .card-progress,
+.php-app .next-step p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.php-app .card-content h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.php-app .card-bottom {
+  margin-top: auto;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.php-app .resume-notes dd {
+  white-space: pre-wrap;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.php-app .detail-meta {
+  flex-wrap: wrap;
+}
+.php-app .new-card {
+  padding-inline: 24px;
+  text-align: center;
+}
+.php-app .new-card > span:nth-child(3) {
+  font-size: 12px;
+}
+.php-app .section-heading h1,
+.php-app .section-heading h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+}
+.php-app .category-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  min-height: 40px;
+  border: 1px solid #465165;
+  border-radius: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.php-app .category-tab.selected {
+  color: #122821;
+  background: var(--mint);
+  border-color: var(--mint);
+}
+.php-app .category-tab:hover {
+  border-color: var(--mint);
+}
+.php-app .filter-empty.visible {
+  display: block;
+}
+.empty-actions,
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+}
+.no-active > p {
+  margin-top: 10px;
+  color: var(--muted);
+}
+.no-active .empty-actions {
+  justify-content: flex-start;
+}
+.status-action {
+  margin-top: 12px;
+}
+.notice {
+  margin-bottom: 24px;
+  padding: 18px 22px;
+  border: 1px solid #486955;
+  border-radius: 8px;
+  background: #1c302e;
+  overflow-wrap: anywhere;
+}
+.notice-error {
+  color: #ffdbd8;
+  background: #352329;
+  border-color: #a46b6b;
+}
+.notice a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.notice ul {
+  margin-bottom: 0;
+  padding-left: 22px;
+}
+.field-error {
+  color: #ffc4be;
+  margin-top: 7px;
+  font-size: 13px;
+}
+.php-app [aria-invalid="true"] {
+  border-color: #eb9690;
+}
+.delete-panel,
+.error-panel {
+  padding: 32px;
+  max-width: 760px;
+  margin: auto;
+}
+.delete-panel h1,
+.error-panel h1 {
+  font-size: 28px;
+  margin: 12px 0 20px;
+}
+.delete-panel h2 {
+  font-size: 22px;
+  margin-bottom: 18px;
+  color: var(--mint);
+}
+.button.danger {
+  color: #fff1ef;
+  background: #773c40;
+  border-color: #b67174;
+}
+.button.danger:hover {
+  background: #8d454b;
+}
+.php-app .page-footer {
+  font-size: 12px;
+}
+.php-app .page-footer > span:last-child {
+  font-size: 10px;
+}
+@media (max-width: 1250px) {
+  .php-app .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .php-app .hero-copy {
+    max-width: 72%;
+  }
+}
+@media (max-width: 1000px) {
+  .php-app .hero-copy {
+    max-width: 100%;
+  }
+  .php-app .hero-graphic {
+    opacity: .15;
+  }
+  .php-app .detail-side {
+    display: block;
+  }
+  .php-app .detail-side .danger-link {
+    margin-top: 0;
+  }
+}
+@media (max-width: 760px) {
+  .php-app .sidebar-bottom {
+    display: block;
+    margin-top: 12px;
+  }
+  .php-app .sidebar-bottom .nav-item {
+    width: fit-content;
+  }
+  .php-app .local-status {
+    display: none;
+  }
+  .php-app .topbar-right {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .php-app .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+@media (max-width: 520px) {
+  .php-app .cards,
+  .php-app .resume-notes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .php-app .hero-copy > p {
+    max-width: 100%;
+  }
+  .php-app .hero h1 {
+    font-size: 27px;
+  }
+  .php-app .stat-item {
+    padding: 13px 8px;
+  }
+  .php-app .stat-item > span:nth-child(2) > span {
+    font-size: 11px;
+    overflow-wrap: anywhere;
+  }
+  .php-app .form-actions {
+    flex-wrap: wrap;
+  }
+  .php-app .detail-heading h1 {
+    font-size: 27px;
+  }
+  .delete-panel,
+  .error-panel {
+    padding: 24px 20px;
+  }
+}

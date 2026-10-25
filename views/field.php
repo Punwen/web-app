@@ -5,7 +5,8 @@ $required=in_array($field,['title','progress'],true);$invalid=isset($errors[$fie
 ?>
 <div class="field"><label for="<?= $field ?>"><?= e(t($field)) ?><span class="<?= $required?'required':'optional' ?>"><?= e(t($required?'required':'optional')) ?></span></label>
 <?php if($field==='title'): ?>
-<input type="text" id="title" name="title" value="<?= e($values[$field]) ?>" maxlength="100" required placeholder="<?= e(t($hints[$field])) ?>" aria-describedby="title-hint<?= $invalid?' title-error':'' ?>" <?= $invalid?'aria-invalid="true"':'' ?>>
-<?php else: ?><textarea id="<?= $field ?>" name="<?= $field ?>" rows="<?= $field==='next_step'?3:4 ?>" maxlength="<?= $limits[$field] ?>" <?= $required?'required':'' ?> placeholder="<?= e(t($hints[$field])) ?>" aria-describedby="<?= $field ?>-hint<?= $invalid?' '.$field.'-error':'' ?>" <?= $invalid?'aria-invalid="true"':'' ?>><?= e($values[$field]) ?></textarea><?php endif; ?>
+<input type="text" id="title" name="title" value="<?= e($values[$field]) ?>" maxlength="200" required placeholder="<?= e(t($hints[$field])) ?>" aria-describedby="title-hint<?= $invalid?' title-error':'' ?>" <?= $invalid?'aria-invalid="true"':'' ?>>
+<?php else: ?><textarea id="<?= $field ?>" name="<?= $field ?>" rows="<?= $field==='next_step'?3:4 ?>" maxlength="<?= $limits[$field] * 2 ?>" <?= $required?'required':'' ?> placeholder="<?= e(t($hints[$field])) ?>" aria-describedby="<?= $field ?>-hint<?= $invalid?' '.$field.'-error':'' ?>" <?= $invalid?'aria-invalid="true"':'' ?>><?= e($values[$field]) ?></textarea><?php endif; ?>
 <p class="field-hint" id="<?= $field ?>-hint"><?= e(t('limit',['n'=>$limits[$field]])) ?></p>
 <?php if($invalid): ?><p class="field-error" id="<?= $field ?>-error"><?= e(t($errors[$field])) ?></p><?php endif; ?></div>
+
