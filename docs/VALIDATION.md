@@ -1,33 +1,40 @@
-# 驗證記錄
+# ReStart PHP 驗證紀錄
 
-## 已完成
+2026-10-25，Windows／PHP 8.4.12／MySQL 9.7.2／Chrome。本機 PHP 分支；測試資料庫固定 restart_test，正式 restart 未用於測試清除。
 
-- 45 個 HTML 頁面（三種語言各 15 頁）的本機連結、CSS 及圖示檔案均存在。
-- HTML 中沒有重複的 ID，表單欄位有對應標籤。
-- 三種語言各四個清單頁的六個分類，共 72 組 CSS 選擇器條件，與預期可見卡片一致。
-- 以實際 CSS 的 display 規則檢查其中 36 組無結果狀態：顯示空白提示、隱藏重複的新增卡片。其餘分類不顯示空白提示。
-- 每次篩選後切回「全部」，確認卡片與新增入口恢復顯示。
-- 三種語言的「繼續上次」標題、進度、下一步與詳細頁連結均與示範存檔 01 一致。
-- 三個首次使用頁均能前往新增表單，且不顯示存檔卡片、最近存檔或示範數量。
-- CSS 經語法解析，未發現解析錯誤。
-- 原型的存檔按鈕停用，表單清楚說明輸入內容不會保存。
-- 專案沒有 JavaScript 或 PHP 檔案。
-- 135 個語言切換連結均對應同一頁面，站內連結維持所選語言。
-- 各語言的 html lang、切換選單標記、欄位提示與無障礙標籤均已對應。
-- 英文版的可見內容未殘留日文；繁體中文版未殘留假名（語言選單的「日本語」除外）。
-- 上一版曾以靜態排版工具初步檢查首頁、新增頁與詳細頁；本次新增區塊僅完成結構與 CSS 規則檢查，未完成瀏覽器排版驗證。
+| 驗證 | 結果 |
+|---|---|
+| tests/domain.php | 24 assertions PASS |
+| tests/repository.php | 18 assertions PASS，實際 MySQL |
+| tests/http.cjs | 28 assertions PASS |
+| tests/browser.cjs | 198 checks PASS，三語 × 1440/1024/768/390/320px |
+| tests/browser-list.cjs | 30 checks PASS，三語篩選、12筆分頁、1024×600短視窗使用說明 |
+| tests/backup.php | 7 assertions PASS，交易還原與不合法資料拒絕 |
+| tests/cli.php | 10 assertions PASS，備份指令、確認旗標、禁止覆寫、示範匯入 |
+| tests/outage.cjs | 11 checks PASS，503保留文字、內部檔案404 |
+| tests/persistence.php read | 1 assertion PASS，服務重啟後保留；測試資料已cleanup |
+| PHP lint | 33 PHP files PASS |
+| local.ps1 start/status | 已啟動服務可重複start，回報already running；網站與資料庫均可用 |
+| git diff --check | PASS |
 
-## 仍需在本機瀏覽器確認
+先前已實測 stop 正常關閉專用資料庫與網站後再次 start；沒有刪除資料目錄。三張瀏覽器截圖已檢視，使用的是測試資料。
 
-目前執行環境限制瀏覽器程序啟動，因此沒有宣稱已通過完整的 Chromium 操作或手機實機測試。
+執行完整測試時先啟動專用資料庫、8089測試網站及8091斷線網站。依序跑domain、repository、backup、HTTP、browser、CLI、browser-list、outage，避免並行清空同一測試資料庫。Node測試依賴Playwright和Chrome，產品本身不使用JavaScript。
 
-在 VS Code 開啟後，建議檢查：
+限制：Apache／XAMPP MariaDB 路線提供設定說明，但本次未在該環境執行。獨立審查已完成，兩項重要問題已修正，並完成整套回歸。
 
-1. 桌機瀏覽器視窗：1440、1024、768px 寬度。
-2. 開啟開發者工具的裝置模式：390、320px 寬度。
-3. 首頁的分類切換、卡片連結、側邊選單，以及新增和編輯頁的欄位。
-4. 用 Tab 鍵移動焦點，用方向鍵切換分類 radio。
-5. 首頁「繼續上次」的長英文文字、手機單欄排列與詳細頁入口。
-6. 首頁選「其他」查看空白提示，再選「全部」；從頁尾的預覽連結開啟首次使用畫面，測試三語切換與新增入口。
+## 獨立審查及修正
+- 修正密碼設定寫入失敗仍變更資料庫帳號：完整寫入暫存檔並完成更名後才改帳號，設定先保存再建立app user。另驗證資料目錄；處理已保存密碼但尚未ALTER時的重試。
+- 修正還原前備份的部分寫入：比較完整位元組長度，失敗即中止，不替換資料。
+- tests/io-failures.php backup／admin.php／config.local.php：原實作各自失敗，修正後共5斷言通過。recover模式另1斷言通過。故障注入隔離於測試程序，帳號操作使用假PDO，備份使用restart_test。
+- 補上刪除確認後其他分頁已更新的HTTP測試：回409，保留新內容。
+- 審查者未獨立執行測試；上列結果由主實作者實際執行。審查者Git上下文失敗，歷史保留由主實作者確認：原HTML、原style.css及原圖片相對db63131無差異。
+- 無尚未處理的重要問題，無延後的小項；Apache／XAMPP實機驗證仍列為環境限制。
 
-靜態排版預覽不等同於完整瀏覽器驗證。
+## 實作決策紀錄
+1. 依使用者要求在原checkout使用新分支，不建立新worktree；切換版本須先保存變更。
+2. Windows使用原生PowerShell紀錄流程，取代技能bash輔助腳本；以相同測試與Git證據核對，沒有依賴bash自動紀錄。
+3. HTML maxlength為Unicode限制的兩倍，容納emoji UTF16代理對；PHP仍依碼點限制。代價是純ASCII超限會送出後才收到錯誤。
+4. 舊刪除表單雖有版本檢查，仍補上原計畫要求的HTTP回歸，避免未驗證其實際路由行為。
+5. Apache未實測維持明確限制；本次交付以已驗證的PHP本機伺服器為準。
+6. 審查不重跑測試與Git歷史檢查，由主實作者提供實測與差異證據；不宣稱雙重獨立驗證。

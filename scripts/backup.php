@@ -14,7 +14,8 @@ try {
         if(($argv[3]??'')!=='--confirm')throw new RuntimeException('Restore replaces this ReStart database. Add --confirm after checking the target and backup.');
         if(!is_file($file)||filesize($file)>64*1024*1024)throw new RuntimeException('Backup is missing or exceeds 64 MB.');
         $before=dirname(__DIR__).'/.local/before-restore-'.date('Ymd-His').'-'.bin2hex(random_bytes(3)).'.json';
-        if(file_put_contents($before,export_backup($db),LOCK_EX)===false)throw new RuntimeException('Cannot save the automatic before-restore backup.');
+        $recovery=export_backup($db);
+        if(file_put_contents($before,$recovery,LOCK_EX)!==strlen($recovery))throw new RuntimeException('Cannot save the automatic before-restore backup.');
         $count=restore_backup($db,(string)file_get_contents($file));
         echo "Restored $count saves. Previous data backup: ".basename($before)." in .local\n";
     }

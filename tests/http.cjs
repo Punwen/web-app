@@ -22,7 +22,12 @@ r=await req('?lang=en',{...valid,...staleFields,action:'update',id,title:'Stale 
 r=await req('?view=delete&id='+id+'&lang=en');const del=fields(r.text);ok(r.status===200&&r.text.includes('Newest'),'delete confirmation identifies record');
 r=await req('?action=delete&id='+id);ok(r.status===200,'GET remains read-only');
 r=await req('?view=detail&id='+id);ok(r.status===200,'GET did not delete');
-r=await req('?lang=en',{...del,action:'delete',id});ok(r.status===303,'confirmed delete redirects');
+const newer=await req('?view=edit&id='+id+'&lang=en');
+r=await req('?lang=en',{...valid,...fields(newer.text),action:'update',id,title:'Keep newer record'});ok(r.status===303,'update after delete confirmation');
+r=await req('?lang=en',{...del,action:'delete',id});ok(r.status===409,'stale delete blocked');
+r=await req('?view=detail&id='+id);ok(r.status===200&&r.text.includes('Keep newer record'),'stale delete preserves newer record');
+r=await req('?view=delete&id='+id+'&lang=en');
+r=await req('?lang=en',{...fields(r.text),action:'delete',id});ok(r.status===303,'confirmed delete redirects');
 r=await req('?view=detail&id='+id);ok(r.status===404,'deleted entry not found');
 r=await req('?view=detail&id[]=1');ok(r.status===400,'malformed ID rejected');
 r=await req('?view=unknown');ok(r.status===404,'unknown route404');
